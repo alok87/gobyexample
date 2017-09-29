@@ -10,8 +10,11 @@ func main() {
 
     go func () {
         channel <- "Hello from annonymous go routine"
+        channel <- "Hello again from annonymous go routine"
     }()
 
     msg_received := <-channel
+    fmt.Println("Receivied message in the main thread:", msg_received)
+    msg_received = <-channel
     fmt.Println("Receivied message in the main thread:", msg_received)
 }

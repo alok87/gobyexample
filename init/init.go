@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "os"
 )
 
 func callOut() int {
@@ -24,5 +25,6 @@ func init() {
 }
 
 func main() {
-    fmt.Println("Do your thing !")
+    fmt.Println(" Do your thing !")
+    fmt.Println(os.Args[1:])
 }

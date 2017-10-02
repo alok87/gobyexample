@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
+	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -31,17 +32,25 @@ func main() {
 		panic(err)
 	}
 
-	// Create a client for namespace
+	// Show namespaces
 	coreV1Client := clientSet.CoreV1()
 	nameSpaces, err := coreV1Client.Namespaces().List(metav1.ListOptions{})
 	if err != nil {
 		panic(err)
 	}
-
-	// Show all namespaces
 	fmt.Println("List of namespaces in cluster:", viper.Get("current-context"))
 	for _, n := range nameSpaces.Items {
 		fmt.Println(n.Name)
 	}
 
+	// Show all deployments in all namespaces
+	v1Beta1Client := clientSet.AppsV1beta1()
+	deployments, err := v1Beta1Client.Deployments(apiv1.NamespaceAll).List(metav1.ListOptions{})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("List of deployments in cluster:", viper.Get("current-context"))
+	for _, d := range deployments.Items {
+		fmt.Println(d.Name)
+	}
 }

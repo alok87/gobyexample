@@ -20,7 +20,7 @@ func main() {
 	// Get the kubeclient version stored in .kube/config and show it
 	fmt.Println("Kubeconfig version:", viper.Get("apiVersion"))
 
-	// Make the clinet restConfig from the kubeconfig file
+	// Make the client restConfig from the kubeconfig file
 	clientConfig, err := clientcmd.BuildConfigFromFlags("", viper.ConfigFileUsed())
 	if err != nil {
 		panic(err)
